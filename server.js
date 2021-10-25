@@ -25,7 +25,36 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
-
+app.get('/api/whoami', function (req,res){
+	
+	console.log(req.ip.split(':')[req.ip.split(':').length - 1])
+	
+	
+	
+	// 	the correct method to get the remote IP, if the server is behind a proxy, is request.headers['x-forwarded-for']
+	//  The general format of the field is:
+	//  x-forwarded-for: client, proxy1, proxy2, proxy3
+	
+	/* const parseIp = (req) =>
+	req.headers['x-forwarded-for'].split(',').shift()
+	|| req.socket.remoteAddress
+	console.log('====')
+	console.log(parseIp(req))
+	*/
+	
+	// res.send(`${parseIp(req)}  ==  ${req.header('Accept-Language')}  ==  ${req.header('User-Agent')}`)
+	res.json(
+		{
+			ipaddress : req.ip.split(':')[req.ip.split(':').length - 1],
+			language : req.header('Accept-Language'),
+			software : req.header('User-Agent')
+		}
+	)
+	
+	
+	
+	
+})
 
 // listen for requests :)
 var listener = app.listen(process.env.PORT, function () {
